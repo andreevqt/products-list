@@ -1,0 +1,21 @@
+.content {
+  transform: translateX(300px);
+  margin-right: 300px;
+}
+
+.filter-group {
+  &__label {
+    margin-bottom: 15px;
+  }
+  margin-bottom: 30px;
+}
+
+.horizontal-field {
+  display: flex;
+  align-items: center;
+  &__input {
+    padding: 0;
+    margin-right: 15px;
+  }
+}
+
