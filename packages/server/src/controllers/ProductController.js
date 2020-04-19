@@ -1,14 +1,17 @@
 const Product = require("../models/Product");
 const Category = require("../models/Category");
-
+// TODO make middleware to extract properties;
 const buildQuery = (query, category, allowed = ["name", "category"]) => {
   const res = {};
   for (const [key, value] of Object.entries(query)) {
-    const found = category.filters.find(filter => filter.name === key);
-    if (found) {
-      res["properties.name"] = key;
-      res["properties.value"] = value;
-      continue;
+    // if there is one category => return filters 
+    if (category.length === 1) {
+      const found = category.filters.find(filter => filter.name === key);
+      if (found) {
+        res["properties.name"] = key;
+        res["properties.value"] = value;
+        continue;
+      }
     }
 
     if (allowed.includes(key)) {
@@ -37,12 +40,21 @@ const filterByCategory = async ({
   };
 
   if (category) {
-    cat = await Category.findOne({ name: new RegExp(`^${category}$`, "i") });
+    if (!Array.isArray(Category)) {
+      category = [category];
+    }
+
+    cat = await Product.find({
+      '_id': { $in: category }
+    });
+
     if (!cat) {
       throw Error(`Category ${category} not found`);
     }
 
-    mQuery.category = cat._id;
+    mQuery.category = {
+      category: "id"            
+    };
     mQuery = buildQuery({ ...mQuery, ...rest }, cat);
   }
 

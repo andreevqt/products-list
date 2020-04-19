@@ -18,9 +18,13 @@ before(async () => {
 
 describe("Products", () => {
   let product = null;
+  let laptops = null;
+  let pcs = null;
 
   before(async () => {
     product = await Product.findOne();
+    laptops = await Category.findOne({ name: "laptops" });
+    pcs = await Category.findOne({ name: "PC" });
   });
 
   it("should respone with status ok", (done) => {
@@ -118,14 +122,29 @@ describe("Products", () => {
     chai.request(server)
       .get("/api/products")
       .query({
-        category: "PC"
+        category: pcs._id.toString()
       })
       .end((err, res) => {
         const body = res.body;
-        // console.log(body);
         const { items } = body;
         items.length.should.be.eql(1);
-        // items[0].category.name.should.match(/pc/i);
+        done();
+      });
+  });
+
+  it("should filter products by categories", (done) => {
+    chai.request(server)
+      .get("/api/products")
+      .query({
+        category: [
+          pcs._id.toString(),
+          laptops._id.toString()
+        ]
+      })
+      .end((err, res) => {
+        const body = res.body;
+        const { total } = body;
+        total.should.be.eql(9);
         done();
       });
   });

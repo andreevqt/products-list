@@ -9,19 +9,20 @@ const CheckboxFilter = ({
   onChange,
   items
 }) => {
+  
   return (
     <CheckboxGroup
       label={label}
       name={name}
       value={value}
-      onChange={() => onChange(name, value)}
+      onChange={(e, value) => onChange(e, name, value)}
     >
       {
         items.map(item => (
           <Checkbox
             key={item.value}
             label={item.name}
-            value={items.find(item => item.name === item.name).value}
+            value={item.value}
           />
         ))
       }

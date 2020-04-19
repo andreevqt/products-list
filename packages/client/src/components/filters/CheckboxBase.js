@@ -8,7 +8,6 @@ const CheckboxBase = ({
   type,
   group
 }) => {
-
   if (group) {
     if (typeof checked === "undefined") {
       if (type === "checkbox") {

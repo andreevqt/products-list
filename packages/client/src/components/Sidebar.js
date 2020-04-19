@@ -36,7 +36,6 @@ const Sidebar = ({
 }) => {
 
   const [query, setQuery] = useQuery("/search");
-  console.log(query);
 
   const updateQuery = (name, value) => {
     if (typeof query[name] === "undefined") {
@@ -66,12 +65,13 @@ const Sidebar = ({
   }, [])
 
   useEffect(() => {
+    console.log("changing");
+    console.log(query);
     // fetchProducts({ page: currentPage, category: 1 });
   }, [query])
 
-  const onChange =    (name, value) => {
-    console.log(`${name} ${value}`);
-    // updateQuery(name, value);
+  const onChange = (e, name, value) => {
+    updateQuery(name, value);
     selectFilter(name, value, "checkbox_group");
     // fetchProducts({ page: currentPage })
   }

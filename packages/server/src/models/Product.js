@@ -28,7 +28,7 @@ schema.statics.getCategories = async function (query) {
   }));
 }
 
-schema.statics.getFilters = async function (query, category) {
+schema.statics.getFilters = async function (query) {
   const categories = await this.getCategories(query);
   const catFilter = {
     name: "categories",
@@ -42,8 +42,8 @@ schema.statics.getFilters = async function (query, category) {
 
   let filters = [];
 
-  if (category) {
-    filters = await Promise.all(category.filters.map(async filter => {
+  if (categories.length === 1) {
+    filters = await Promise.all(categories[0].filters.map(async filter => {
       const result = await this.aggregate([
         { $unwind: "$properties" },
         {
