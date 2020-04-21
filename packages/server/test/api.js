@@ -1,7 +1,3 @@
-process.env.NODE_ENV = "test";
-process.env.APP_URL = "localhost";
-process.env.DB_NAME = "test";
-
 const chai = require("chai");
 const should = chai.should();
 const chaiHttp = require("chai-http");

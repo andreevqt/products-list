@@ -18,11 +18,12 @@
   "scripts": {
     "start": "nodemon ./index.js",
     "seed": "node src/scripts/index.js",
-    "test": "mocha --timeout 10000 --exit",
+    "test": "cross-env NODE_ENV=test APP_URL=localhost DB_NAME=test  mocha --timeout 10000 --exit ",
     "testDebug": "mocha --timeout 10000 --exit --inspect-brk"
   },
-   "dependencies": {
+  "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-query-int": "^3.0.0",
